@@ -1,13 +1,22 @@
 package com.soczuks.footballassistant.ui.items
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.soczuks.footballassistant.FootballAssistantApp
+import com.soczuks.footballassistant.database.entities.Item
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class ItemsViewModel : ViewModel() {
+class ItemsViewModel(application: Application) : AndroidViewModel(application) {
+    private val itemsDao = (application as FootballAssistantApp).getItemsDao()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is items Fragment"
+    val items: LiveData<List<Item>> = itemsDao.getAllItemsLive()
+
+    fun insertItem(item: Item) {
+        viewModelScope.launch(Dispatchers.IO) {
+            itemsDao.insert(item)
+        }
     }
-    val text: LiveData<String> = _text
 }

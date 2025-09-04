@@ -1,6 +1,7 @@
 package com.soczuks.footballassistant
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import com.google.android.material.navigation.NavigationView
@@ -11,11 +12,19 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.ActivityMainBinding
+import com.soczuks.footballassistant.ui.items.AddItemDialogFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    AddItemDialogFragment.AddItemDialogListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var footballAssistantApp: FootballAssistantApp
     private val fabAnimationDuration: Long = 200
     private var isFabMenuOpen: Boolean = false
 
@@ -46,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.appBarMain.fabItem.setOnClickListener { view ->
+            addItemDialog()
             closeFabMenu()
         }
 
@@ -67,6 +77,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        footballAssistantApp = application as FootballAssistantApp
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -137,5 +149,23 @@ class MainActivity : AppCompatActivity() {
             .setDuration(fabAnimationDuration)
             .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }
             .start()
+    }
+    private fun addItemDialog() {
+        val dialog = AddItemDialogFragment()
+        dialog.setListener(this)
+        dialog.show(supportFragmentManager, AddItemDialogFragment.TAG)
+    }
+
+    override fun onItemAdded(item: Item) {
+        Log.d("MainActivity", "New item added: ${item.name}")
+        lifecycleScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    footballAssistantApp.addItem(item)
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error adding item: ${e.message}")
+            }
+        }
     }
 }

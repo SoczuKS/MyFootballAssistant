@@ -1,5 +1,6 @@
 package com.soczuks.footballassistant.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -13,6 +14,9 @@ interface ItemDao {
 
     @Query("SELECT * FROM items")
     suspend fun getAllItems(): List<Item>
+
+    @Query("SELECT * FROM items ORDER BY name ASC")
+    fun getAllItemsLive(): LiveData<List<Item>>
 
     @Transaction
     @Query("SELECT * FROM items WHERE id = :itemId")

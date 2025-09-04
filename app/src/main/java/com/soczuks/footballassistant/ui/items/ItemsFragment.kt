@@ -1,36 +1,40 @@
 package com.soczuks.footballassistant.ui.items
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.FragmentItemsBinding
 
 class ItemsFragment : Fragment() {
-
     private var _binding: FragmentItemsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var itemsViewModel: ItemsViewModel
+    private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val itemsViewModel =
-            ViewModelProvider(this)[ItemsViewModel::class.java]
+        itemsViewModel = ViewModelProvider(this)[ItemsViewModel::class.java]
 
         _binding = FragmentItemsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSlideshow
-        itemsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        setupRecyclerView()
+
+        itemsViewModel.items.observe(viewLifecycleOwner) { items ->
+            items?.let {
+                itemAdapter.submitList(it)
+            }
         }
         return root
     }
@@ -38,5 +42,15 @@ class ItemsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupRecyclerView() {
+        itemAdapter = ItemAdapter {
+            selectedItem -> Log.d("ItemsFragment", "Selected item: ${selectedItem.name}")
+        }
+        binding.recyclerViewItems.apply {
+            adapter = itemAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 }
