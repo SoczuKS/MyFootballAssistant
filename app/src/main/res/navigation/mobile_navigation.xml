@@ -12,14 +12,20 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.soczuks.footballassistant.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_matches"
+        android:name="com.soczuks.footballassistant.ui.matches.MatchesFragment"
+        android:label="@string/menu_matches"
+        tools:layout="@layout/fragment_matches" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.soczuks.footballassistant.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_competitions"
+        android:name="com.soczuks.footballassistant.ui.competitions.CompetitionsFragment"
+        android:label="@string/menu_competitions"
+        tools:layout="@layout/fragment_competitions" />
+
+    <fragment
+        android:id="@+id/nav_items"
+        android:name="com.soczuks.footballassistant.ui.items.ItemsFragment"
+        android:label="@string/menu_items"
+        tools:layout="@layout/fragment_items" />
 </navigation>
