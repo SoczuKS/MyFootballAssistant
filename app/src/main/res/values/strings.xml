@@ -10,4 +10,8 @@
     <string name="menu_competitions">Competitions</string>
     <string name="menu_items">Items</string>
     <string name="menu_matches">Matches</string>
+    <string name="fab_description">Add</string>
+    <string name="fab_competition_description">Add competitions</string>
+    <string name="fab_item_description">Add item</string>
+    <string name="fab_match_description">Add match</string>
 </resources>

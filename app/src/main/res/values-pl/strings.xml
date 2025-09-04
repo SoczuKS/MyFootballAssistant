@@ -10,4 +10,8 @@
     <string name="menu_items">Ekwipunek</string>
     <string name="navigation_drawer_open">Otwórz menu</string>
     <string name="menu_matches">Mecze</string>
+    <string name="fab_description">Dodaj</string>
+    <string name="fab_competition_description">Dodaj rozgrywki</string>
+    <string name="fab_item_description">Dodaj przedmiot</string>
+    <string name="fab_match_description">Dodaj mecz</string>
 </resources>
