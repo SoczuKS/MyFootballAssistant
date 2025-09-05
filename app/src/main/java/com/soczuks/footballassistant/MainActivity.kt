@@ -13,14 +13,17 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.ActivityMainBinding
+import com.soczuks.footballassistant.ui.competitions.AddCompetitionDialogFragment
 import com.soczuks.footballassistant.ui.items.AddItemDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(),
+    AddCompetitionDialogFragment.AddCompetitionDialogListener,
     AddItemDialogFragment.AddItemDialogListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -64,6 +67,7 @@ class MainActivity : AppCompatActivity(),
         }
 
         binding.appBarMain.fabCompetition.setOnClickListener { view ->
+            addCompetitionDialog()
             closeFabMenu()
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -150,10 +154,30 @@ class MainActivity : AppCompatActivity(),
             .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }
             .start()
     }
+
+    private fun addCompetitionDialog() {
+        val dialog = AddCompetitionDialogFragment()
+        dialog.setListener(this)
+        dialog.show(supportFragmentManager, AddCompetitionDialogFragment.TAG)
+    }
+
     private fun addItemDialog() {
         val dialog = AddItemDialogFragment()
         dialog.setListener(this)
         dialog.show(supportFragmentManager, AddItemDialogFragment.TAG)
+    }
+
+    override fun onCompetitionAdded(competition: Competition) {
+        Log.d("MainActivity", "New competition added: ${competition.name}")
+        lifecycleScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    footballAssistantApp.addCompetition(competition)
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error adding competition: ${e.message}")
+            }
+        }
     }
 
     override fun onItemAdded(item: Item) {

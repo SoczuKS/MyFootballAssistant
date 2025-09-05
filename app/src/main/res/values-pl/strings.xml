@@ -12,6 +12,9 @@
     <string name="fab_competition_description">Dodaj rozgrywki</string>
     <string name="fab_item_description">Dodaj przedmiot</string>
     <string name="fab_match_description">Dodaj mecz</string>
+    <string name="add_competition">Dodaj rozgrywki</string>
+    <string name="add_competition_name_hint">Nazwa rozgrywek</string>
+    <string name="add_competition_team_hint">Drużyna</string>
     <string name="add">Dodaj</string>
     <string name="cancel">Anuluj</string>
     <string name="add_item">Dodaj przedmiot</string>

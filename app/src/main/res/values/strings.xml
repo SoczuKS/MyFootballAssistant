@@ -14,6 +14,9 @@
     <string name="fab_competition_description">Add competitions</string>
     <string name="fab_item_description">Add item</string>
     <string name="fab_match_description">Add match</string>
+    <string name="add_competition">Add competition</string>
+    <string name="add_competition_name_hint">Competition name</string>
+    <string name="add_competition_team_hint">Team</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="add_item">Add item</string>
