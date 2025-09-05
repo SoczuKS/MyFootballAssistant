@@ -9,7 +9,7 @@ import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Item
 
 class AddItemDialogFragment : DialogFragment() {
-    interface AddItemDialogListener{
+    interface AddItemDialogListener {
         fun onItemAdded(item: Item)
     }
 

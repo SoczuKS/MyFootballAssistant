@@ -13,8 +13,7 @@ class FootballAssistantApp : Application() {
     override fun onCreate() {
         super.onCreate()
         database = Room.databaseBuilder(
-            applicationContext,
-            Database::class.java, "fa_db.db"
+            applicationContext, Database::class.java, "fa_db.db"
         ).fallbackToDestructiveMigration(true).build()
     }
 

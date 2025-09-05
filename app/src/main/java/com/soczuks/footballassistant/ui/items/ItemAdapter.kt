@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Item
 
-class ItemAdapter(private val onItemClicked: (item: Item) -> Unit) : ListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffCallback()) {
+class ItemAdapter(private val onItemClicked: (item: Item) -> Unit) :
+    ListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.items_list, parent, false)
         return ItemViewHolder(view)

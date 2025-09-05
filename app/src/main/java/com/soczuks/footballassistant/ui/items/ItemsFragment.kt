@@ -5,11 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.FragmentItemsBinding
 
 class ItemsFragment : Fragment() {
@@ -20,9 +18,7 @@ class ItemsFragment : Fragment() {
     private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         itemsViewModel = ViewModelProvider(this)[ItemsViewModel::class.java]
 
@@ -45,8 +41,8 @@ class ItemsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        itemAdapter = ItemAdapter {
-            selectedItem -> Log.d("ItemsFragment", "Selected item: ${selectedItem.name}")
+        itemAdapter = ItemAdapter { selectedItem ->
+            Log.d("ItemsFragment", "Selected item: ${selectedItem.name}")
         }
         binding.recyclerViewItems.apply {
             adapter = itemAdapter

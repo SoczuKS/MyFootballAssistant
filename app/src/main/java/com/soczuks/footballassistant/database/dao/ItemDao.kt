@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Transaction
 import com.soczuks.footballassistant.database.entities.Item
 
 @Dao
@@ -18,7 +17,6 @@ interface ItemDao {
     @Query("SELECT * FROM items ORDER BY name ASC")
     fun getAllItemsLive(): LiveData<List<Item>>
 
-    @Transaction
     @Query("SELECT * FROM items WHERE id = :itemId")
     suspend fun getItemById(itemId: Int): Item?
 

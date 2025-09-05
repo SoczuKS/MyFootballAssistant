@@ -3,8 +3,8 @@ package com.soczuks.footballassistant.ui.competitions
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.relations.CompetitionWithItems

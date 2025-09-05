@@ -28,4 +28,5 @@
         android:name="com.soczuks.footballassistant.ui.items.ItemsFragment"
         android:label="@string/menu_items"
         tools:layout="@layout/fragment_items" />
+
 </navigation>

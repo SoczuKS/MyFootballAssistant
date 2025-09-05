@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import com.google.android.material.navigation.NavigationView
 import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.database.entities.Match
@@ -24,10 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity(),
-    AddCompetitionDialogFragment.AddCompetitionDialogListener,
-    AddItemDialogFragment.AddItemDialogListener,
-    AddMatchDialogFragment.AddMatchDialogListener {
+class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompetitionDialogListener,
+    AddItemDialogFragment.AddItemDialogListener, AddMatchDialogFragment.AddMatchDialogListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var footballAssistantApp: FootballAssistantApp
@@ -104,59 +102,38 @@ class MainActivity : AppCompatActivity(),
         binding.appBarMain.fab.animate().rotation(45f).setDuration(fabAnimationDuration).start()
 
         binding.appBarMain.fabMatch.visibility = View.VISIBLE
-        binding.appBarMain.fabMatch.animate()
-            .translationY(0f)
-            .alpha(1f)
-            .setDuration(fabAnimationDuration)
-            .setListener(null)
-            .start()
+        binding.appBarMain.fabMatch.animate().translationY(0f).alpha(1f)
+            .setDuration(fabAnimationDuration).setListener(null).start()
 
         binding.appBarMain.fabItem.visibility = View.VISIBLE
-        binding.appBarMain.fabItem.animate()
-            .translationY(0f)
-            .alpha(1f)
-            .setDuration(fabAnimationDuration)
-            .setListener(null)
-            .start()
+        binding.appBarMain.fabItem.animate().translationY(0f).alpha(1f)
+            .setDuration(fabAnimationDuration).setListener(null).start()
 
         binding.appBarMain.fabCompetition.visibility = View.VISIBLE
-        binding.appBarMain.fabCompetition.animate()
-            .translationY(0f)
-            .alpha(1f)
-            .setDuration(fabAnimationDuration)
-            .setListener(null)
-            .start()
+        binding.appBarMain.fabCompetition.animate().translationY(0f).alpha(1f)
+            .setDuration(fabAnimationDuration).setListener(null).start()
     }
 
     private fun closeFabMenu() {
         isFabMenuOpen = false
-        binding.appBarMain.fab.animate().rotation(0f).setDuration(fabAnimationDuration)
-            .start()
+        binding.appBarMain.fab.animate().rotation(0f).setDuration(fabAnimationDuration).start()
 
         binding.appBarMain.fabMatch.animate()
             .translationY(binding.appBarMain.fabMatch.height.toFloat() + resources.getDimension(R.dimen.fab_margin))
-            .alpha(0f)
-            .setDuration(fabAnimationDuration)
-            .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }
-            .start()
+            .alpha(0f).setDuration(fabAnimationDuration)
+            .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }.start()
 
         binding.appBarMain.fabItem.animate()
             .translationY(binding.appBarMain.fabItem.height.toFloat() + resources.getDimension(R.dimen.fab_margin))
-            .alpha(0f)
-            .setDuration(fabAnimationDuration)
-            .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }
-            .start()
+            .alpha(0f).setDuration(fabAnimationDuration)
+            .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }.start()
 
-        binding.appBarMain.fabCompetition.animate()
-            .translationY(
+        binding.appBarMain.fabCompetition.animate().translationY(
                 binding.appBarMain.fabCompetition.height.toFloat() + resources.getDimension(
                     R.dimen.fab_margin
                 )
-            )
-            .alpha(0f)
-            .setDuration(fabAnimationDuration)
-            .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }
-            .start()
+            ).alpha(0f).setDuration(fabAnimationDuration)
+            .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }.start()
     }
 
     private fun addCompetitionDialog() {

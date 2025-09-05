@@ -88,13 +88,10 @@ class AddMatchDialogFragment : DialogFragment() {
             currentMinute = now.get(Calendar.MINUTE)
         }
 
-        val timePicker = MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(currentHour)
-            .setMinute(currentMinute)
-            .setTitleText("Select Match Time")
-            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
-            .build()
+        val timePicker =
+            MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).setHour(currentHour)
+                .setMinute(currentMinute).setTitleText("Select Match Time")
+                .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK).build()
 
         timePicker.addOnPositiveButtonClickListener {
             selectedDateTime!!.set(Calendar.HOUR_OF_DAY, timePicker.hour)
@@ -111,9 +108,9 @@ class AddMatchDialogFragment : DialogFragment() {
         val currentSelection =
             selectedDateTime?.timeInMillis ?: MaterialDatePicker.todayInUtcMilliseconds()
 
-        val datePickerBuilder = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select Match Date")
-            .setSelection(currentSelection)
+        val datePickerBuilder =
+            MaterialDatePicker.Builder.datePicker().setTitleText("Select Match Date")
+                .setSelection(currentSelection)
 
         val datePicker = datePickerBuilder.build()
 
@@ -122,8 +119,7 @@ class AddMatchDialogFragment : DialogFragment() {
             tempCalendar.timeInMillis = selection
 
             if (selectedDateTime == null) {
-                selectedDateTime =
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                selectedDateTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             }
 
             selectedDateTime!!.set(

@@ -5,15 +5,13 @@ import com.soczuks.footballassistant.database.relations.MatchWithCompetitionAndI
 
 class MatchDiffCallback : DiffUtil.ItemCallback<MatchWithCompetitionAndItems>() {
     override fun areItemsTheSame(
-        oldItem: MatchWithCompetitionAndItems,
-        newItem: MatchWithCompetitionAndItems
+        oldItem: MatchWithCompetitionAndItems, newItem: MatchWithCompetitionAndItems
     ): Boolean {
         return oldItem.match.id == newItem.match.id
     }
 
     override fun areContentsTheSame(
-        oldItem: MatchWithCompetitionAndItems,
-        newItem: MatchWithCompetitionAndItems
+        oldItem: MatchWithCompetitionAndItems, newItem: MatchWithCompetitionAndItems
     ): Boolean {
         return oldItem == newItem
     }

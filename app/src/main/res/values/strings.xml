@@ -5,7 +5,6 @@
     <string name="nav_header_title" translatable="false">Football Assistant</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_competitions">Competitions</string>
     <string name="menu_items">Items</string>
