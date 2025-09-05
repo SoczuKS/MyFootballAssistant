@@ -10,7 +10,6 @@ import com.soczuks.footballassistant.database.entities.Match
 
 data class MatchWithCompetitionAndItems(
     @Embedded val match: Match,
-
     @Relation(
         parentColumn = "id",
         entityColumn = "id",

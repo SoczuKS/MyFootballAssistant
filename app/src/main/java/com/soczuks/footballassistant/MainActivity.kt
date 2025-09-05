@@ -15,16 +15,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.Item
+import com.soczuks.footballassistant.database.entities.Match
 import com.soczuks.footballassistant.databinding.ActivityMainBinding
 import com.soczuks.footballassistant.ui.competitions.AddCompetitionDialogFragment
 import com.soczuks.footballassistant.ui.items.AddItemDialogFragment
+import com.soczuks.footballassistant.ui.matches.AddMatchDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(),
     AddCompetitionDialogFragment.AddCompetitionDialogListener,
-    AddItemDialogFragment.AddItemDialogListener {
+    AddItemDialogFragment.AddItemDialogListener,
+    AddMatchDialogFragment.AddMatchDialogListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var footballAssistantApp: FootballAssistantApp
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity(),
         }
 
         binding.appBarMain.fabMatch.setOnClickListener { view ->
+            addMatchDialog()
             closeFabMenu()
         }
 
@@ -167,6 +171,12 @@ class MainActivity : AppCompatActivity(),
         dialog.show(supportFragmentManager, AddItemDialogFragment.TAG)
     }
 
+    private fun addMatchDialog() {
+        val dialog = AddMatchDialogFragment()
+        dialog.setListener(this)
+        dialog.show(supportFragmentManager, AddMatchDialogFragment.TAG)
+    }
+
     override fun onCompetitionAdded(competition: Competition) {
         Log.d("MainActivity", "New competition added: ${competition.name}")
         lifecycleScope.launch {
@@ -189,6 +199,19 @@ class MainActivity : AppCompatActivity(),
                 }
             } catch (e: Exception) {
                 Log.e("MainActivity", "Error adding item: ${e.message}")
+            }
+        }
+    }
+
+    override fun onMatchAdded(match: Match) {
+        Log.d("MainActivity", "New match added: ${match.rivalTeam}")
+        lifecycleScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    footballAssistantApp.addMatch(match)
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error adding match: ${e.message}")
             }
         }
     }

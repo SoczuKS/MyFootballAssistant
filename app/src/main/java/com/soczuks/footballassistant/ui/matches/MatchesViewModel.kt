@@ -1,12 +1,13 @@
 package com.soczuks.footballassistant.ui.matches
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.soczuks.footballassistant.FootballAssistantApp
+import com.soczuks.footballassistant.database.relations.MatchWithCompetitionAndItems
 
-class MatchesViewModel : ViewModel() {
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is matches Fragment"
-    }
-    val text: LiveData<String> = _text
+class MatchesViewModel(application: Application) : AndroidViewModel(application) {
+    private val matchesDao = (application as FootballAssistantApp).getMatchesDao()
+
+    val matches: LiveData<List<MatchWithCompetitionAndItems>> = matchesDao.getAllMatchesLive()
 }

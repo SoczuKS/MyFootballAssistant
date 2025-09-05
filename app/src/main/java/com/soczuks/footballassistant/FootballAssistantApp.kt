@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.soczuks.footballassistant.database.Database
 import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.Item
+import com.soczuks.footballassistant.database.entities.Match
 
 class FootballAssistantApp : Application() {
     private lateinit var database: Database
@@ -19,6 +20,7 @@ class FootballAssistantApp : Application() {
 
     fun getItemsDao() = database.itemDao()
     fun getCompetitionsDao() = database.competitionDao()
+    fun getMatchesDao() = database.matchDao()
 
     suspend fun addItem(item: Item) {
         database.itemDao().insert(item)
@@ -26,5 +28,9 @@ class FootballAssistantApp : Application() {
 
     suspend fun addCompetition(competition: Competition) {
         database.competitionDao().insert(competition)
+    }
+
+    suspend fun addMatch(match: Match) {
+        database.matchDao().insert(match)
     }
 }
