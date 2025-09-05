@@ -1,19 +1,17 @@
 package com.soczuks.footballassistant.ui.matches
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.relations.MatchWithCompetitionAndItems
+import com.soczuks.footballassistant.databinding.MatchesListBinding
 
 class MatchAdapter(private val onItemClicked: (match: MatchWithCompetitionAndItems) -> Unit) :
     ListAdapter<MatchWithCompetitionAndItems, MatchAdapter.MatchViewHolder>(MatchDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.matches_list, parent, false)
-        return MatchViewHolder(view)
+        val binding = MatchesListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MatchViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
@@ -24,17 +22,13 @@ class MatchAdapter(private val onItemClicked: (match: MatchWithCompetitionAndIte
         }
     }
 
-    class MatchViewHolder(matchView: View) : RecyclerView.ViewHolder(matchView) {
-        private val dateTextView: TextView = matchView.findViewById(R.id.matches_list_date)
-        private val rivalTeamTextView: TextView =
-            matchView.findViewById(R.id.matches_list_rival_team)
-
+    inner class MatchViewHolder(private val binding: MatchesListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(match: MatchWithCompetitionAndItems) {
-            val date =
+            binding.matchesListDate.text =
                 java.text.SimpleDateFormat("dd MMM yyyy, HH:mm", java.util.Locale.getDefault())
                     .format(match.match.matchDate)
-            dateTextView.text = date
-            rivalTeamTextView.text = match.match.rivalTeam
+            binding.matchesListRivalTeam.text = match.match.rivalTeam
         }
     }
 }
