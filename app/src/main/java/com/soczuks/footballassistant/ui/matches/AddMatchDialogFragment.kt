@@ -90,7 +90,7 @@ class AddMatchDialogFragment : DialogFragment() {
 
         val timePicker =
             MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).setHour(currentHour)
-                .setMinute(currentMinute).setTitleText("Select Match Time")
+                .setMinute(currentMinute).setTitleText(R.string.time_picker_title)
                 .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK).build()
 
         timePicker.addOnPositiveButtonClickListener {
@@ -109,7 +109,7 @@ class AddMatchDialogFragment : DialogFragment() {
             selectedDateTime?.timeInMillis ?: MaterialDatePicker.todayInUtcMilliseconds()
 
         val datePickerBuilder =
-            MaterialDatePicker.Builder.datePicker().setTitleText("Select Match Date")
+            MaterialDatePicker.Builder.datePicker().setTitleText(R.string.date_picker_title)
                 .setSelection(currentSelection)
 
         val datePicker = datePickerBuilder.build()

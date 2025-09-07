@@ -30,4 +30,6 @@
     <string name="competition_delete_dialog_question">Do you want to delete competition?</string>
     <string name="match_delete_dialog_question">Do you want to delete match?</string>
     <string name="menu_match_details">Match details</string>
+    <string name="date_picker_title">Select date</string>
+    <string name="time_picker_title">Select time</string>
 </resources>

@@ -29,4 +29,6 @@
     <string name="competition_delete_dialog_question">Chcesz usunąć rozgrywki?</string>
     <string name="match_delete_dialog_question">Chcesz usunąć mecz?</string>
     <string name="menu_match_details">Szczegóły meczu</string>
+    <string name="date_picker_title">Wybierz datę</string>
+    <string name="time_picker_title">Wybierz godzinę</string>
 </resources>
