@@ -4,11 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.soczuks.footballassistant.database.relations.CompetitionWithItems
+import com.soczuks.footballassistant.database.relations.CompetitionDetails
 import com.soczuks.footballassistant.databinding.CompetitionsListBinding
 
-class CompetitionAdapter(private val onItemClicked: (competition: CompetitionWithItems) -> Unit) :
-    ListAdapter<CompetitionWithItems, CompetitionAdapter.CompetitionViewHolder>(
+class CompetitionAdapter(
+    private val onItemClicked: (competition: CompetitionDetails) -> Unit,
+    private val onItemLongClicked: (competition: CompetitionDetails) -> Unit
+) :
+    ListAdapter<CompetitionDetails, CompetitionAdapter.CompetitionViewHolder>(
         CompetitionDiffCallback()
     ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitionViewHolder {
@@ -23,11 +26,15 @@ class CompetitionAdapter(private val onItemClicked: (competition: CompetitionWit
         holder.itemView.setOnClickListener {
             onItemClicked(competition)
         }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClicked(competition)
+            true
+        }
     }
 
     inner class CompetitionViewHolder(private val binding: CompetitionsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(competition: CompetitionWithItems) {
+        fun bind(competition: CompetitionDetails) {
             binding.competitionListName.text = competition.competition.name
         }
     }

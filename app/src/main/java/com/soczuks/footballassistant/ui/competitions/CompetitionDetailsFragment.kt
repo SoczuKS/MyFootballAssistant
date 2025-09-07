@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.soczuks.footballassistant.database.relations.CompetitionWithItems
+import com.soczuks.footballassistant.database.relations.CompetitionDetails
 import com.soczuks.footballassistant.databinding.FragmentCompetitionDetailsBinding
 import com.soczuks.footballassistant.ui.items.ItemsViewModel
 
@@ -42,7 +42,7 @@ class CompetitionDetailsFragment : Fragment() {
             }
     }
 
-    private fun setupUI(competition: CompetitionWithItems) {
+    private fun setupUI(competition: CompetitionDetails) {
         binding.competitionDetailsName.text = competition.competition.name
         itemsViewModel.items.observe(viewLifecycleOwner) { items ->
             val adapter = CompetitionItemAssignmentAdapter(competition) { item, isChecked ->

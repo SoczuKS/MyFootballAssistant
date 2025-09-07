@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.ItemsListBinding
 
-class ItemAdapter(private val onItemClicked: (item: Item) -> Unit) :
+class ItemAdapter(
+    private val onItemClicked: (item: Item) -> Unit,
+    private val onItemLongClicked: (item: Item) -> Unit
+) :
     ListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding = ItemsListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -19,6 +22,10 @@ class ItemAdapter(private val onItemClicked: (item: Item) -> Unit) :
         holder.bind(item)
         holder.itemView.setOnClickListener {
             onItemClicked(item)
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClicked(item)
+            true
         }
     }
 

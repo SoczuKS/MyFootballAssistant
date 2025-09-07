@@ -23,4 +23,9 @@
     <string name="add_match_rival_team_hint">Przeciwnik</string>
     <string name="add_match_date_hint">Termin</string>
     <string name="menu_competition_details">Informacje o rozgrywkach</string>
+    <string name="item_delete_dialog_question">Chcesz usunąć przedmiot?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="competition_delete_dialog_question">Chcesz usunąć rozgrywki?</string>
+    <string name="match_delete_dialog_question">Chcesz usunąć mecz?</string>
 </resources>

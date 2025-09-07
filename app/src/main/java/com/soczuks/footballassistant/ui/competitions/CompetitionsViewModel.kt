@@ -7,22 +7,28 @@ import androidx.lifecycle.viewModelScope
 import com.soczuks.footballassistant.FootballAssistantApp
 import com.soczuks.footballassistant.database.entities.CompetitionItem
 import com.soczuks.footballassistant.database.entities.Item
-import com.soczuks.footballassistant.database.relations.CompetitionWithItems
+import com.soczuks.footballassistant.database.relations.CompetitionDetails
 import kotlinx.coroutines.launch
 
 class CompetitionsViewModel(application: Application) : AndroidViewModel(application) {
     private val competitionsDao = (application as FootballAssistantApp).getCompetitionsDao()
 
-    val competitions: LiveData<List<CompetitionWithItems>> =
-        competitionsDao.getAllCompetitionsLive()
+    val competitions: LiveData<List<CompetitionDetails>> =
+        competitionsDao.getAll()
 
-    fun getCompetitionById(id: Int): LiveData<CompetitionWithItems>? {
-        return competitionsDao.getCompetitionById(id)
+    fun getCompetitionById(id: Int): LiveData<CompetitionDetails>? {
+        return competitionsDao.getById(id)
     }
 
-    fun assignItemToCompetition(competition: CompetitionWithItems, item: Item) {
+    fun delete(competition: CompetitionDetails) {
         viewModelScope.launch {
-            competitionsDao.insertCompetitionItem(
+            competitionsDao.delete(competition.competition)
+        }.start()
+    }
+
+    fun assignItemToCompetition(competition: CompetitionDetails, item: Item) {
+        viewModelScope.launch {
+            competitionsDao.insert(
                 CompetitionItem(
                     competition.competition.id,
                     item.id
@@ -31,11 +37,13 @@ class CompetitionsViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
-    fun unassignItemFromCompetition(competition: CompetitionWithItems, item: Item) {
+    fun unassignItemFromCompetition(competition: CompetitionDetails, item: Item) {
         viewModelScope.launch {
-            competitionsDao.deleteCompetitionItem(
-                competition.competition.id,
-                item.id
+            competitionsDao.delete(
+                CompetitionItem(
+                    competition.competition.id,
+                    item.id
+                )
 
             )
         }

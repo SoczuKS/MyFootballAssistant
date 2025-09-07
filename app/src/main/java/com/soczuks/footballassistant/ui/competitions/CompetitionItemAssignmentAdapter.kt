@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.soczuks.footballassistant.database.entities.Item
-import com.soczuks.footballassistant.database.relations.CompetitionWithItems
+import com.soczuks.footballassistant.database.relations.CompetitionDetails
 import com.soczuks.footballassistant.databinding.CompetitionDetailsItemsListBinding
 import com.soczuks.footballassistant.ui.items.ItemDiffCallback
 
 class CompetitionItemAssignmentAdapter(
-    private val competition: CompetitionWithItems,
+    private val competition: CompetitionDetails,
     private val onItemCheckedChanged: (item: Item, isChecked: Boolean) -> Unit
 ) :
     ListAdapter<Item, CompetitionItemAssignmentAdapter.ViewHolder>(ItemDiffCallback()) {

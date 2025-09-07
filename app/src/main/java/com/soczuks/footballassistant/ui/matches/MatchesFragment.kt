@@ -1,5 +1,6 @@
 package com.soczuks.footballassistant.ui.matches
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.databinding.FragmentMatchesBinding
 
 class MatchesFragment : Fragment() {
@@ -43,11 +45,20 @@ class MatchesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        matchAdapter = MatchAdapter { selectedItem ->
+        matchAdapter = MatchAdapter({ selectedMatch ->
             Log.d(
-                "MatchesFragment", "Selected match: ${selectedItem.match.rivalTeam}"
+                "MatchesFragment", "Selected match: ${selectedMatch.match.rivalTeam}"
             )
-        }
+        }, { selectedMatch ->
+            AlertDialog.Builder(requireContext())
+                .setTitle(selectedMatch.match.rivalTeam)
+                .setMessage(R.string.match_delete_dialog_question)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    matchesViewModel.delete(selectedMatch)
+                }
+                .setNegativeButton(R.string.no, null)
+                .show()
+        })
 
         binding.recyclerViewMatches.apply {
             adapter = matchAdapter

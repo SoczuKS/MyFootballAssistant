@@ -24,4 +24,9 @@
     <string name="add_match_rival_team_hint">Rival team</string>
     <string name="add_match_date_hint">Date</string>
     <string name="menu_competition_details">Competition details</string>
+    <string name="item_delete_dialog_question">Do you want to delete item?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="competition_delete_dialog_question">Do you want to delete competition?</string>
+    <string name="match_delete_dialog_question">Do you want to delete match?</string>
 </resources>

@@ -1,13 +1,14 @@
 package com.soczuks.footballassistant.ui.items
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.databinding.FragmentItemsBinding
 
 class ItemsFragment : Fragment() {
@@ -41,9 +42,18 @@ class ItemsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        itemAdapter = ItemAdapter { selectedItem ->
-            Log.d("ItemsFragment", "Selected item: ${selectedItem.name}")
-        }
+        itemAdapter = ItemAdapter({ selectedItem ->
+            // TODO: Item details view
+        }, { selectedItem ->
+            AlertDialog.Builder(requireContext())
+                .setTitle(selectedItem.name)
+                .setMessage(R.string.item_delete_dialog_question)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    itemsViewModel.delete(selectedItem)
+                }
+                .setNegativeButton(R.string.no, null)
+                .show()
+        })
         binding.recyclerViewItems.apply {
             adapter = itemAdapter
             layoutManager = LinearLayoutManager(context)

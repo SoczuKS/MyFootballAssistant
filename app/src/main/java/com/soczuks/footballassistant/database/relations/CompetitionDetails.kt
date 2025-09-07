@@ -7,7 +7,7 @@ import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.CompetitionItem
 import com.soczuks.footballassistant.database.entities.Item
 
-data class CompetitionWithItems(
+data class CompetitionDetails(
     @Embedded val competition: Competition,
     @Relation(
         parentColumn = "id",

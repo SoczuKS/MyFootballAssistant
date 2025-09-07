@@ -1,17 +1,17 @@
 package com.soczuks.footballassistant.ui.competitions
 
 import androidx.recyclerview.widget.DiffUtil
-import com.soczuks.footballassistant.database.relations.CompetitionWithItems
+import com.soczuks.footballassistant.database.relations.CompetitionDetails
 
-class CompetitionDiffCallback : DiffUtil.ItemCallback<CompetitionWithItems>() {
+class CompetitionDiffCallback : DiffUtil.ItemCallback<CompetitionDetails>() {
     override fun areItemsTheSame(
-        oldItem: CompetitionWithItems, newItem: CompetitionWithItems
+        oldItem: CompetitionDetails, newItem: CompetitionDetails
     ): Boolean {
         return oldItem.competition.id == newItem.competition.id
     }
 
     override fun areContentsTheSame(
-        oldItem: CompetitionWithItems, newItem: CompetitionWithItems
+        oldItem: CompetitionDetails, newItem: CompetitionDetails
     ): Boolean {
         return oldItem == newItem
     }
