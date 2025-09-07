@@ -13,6 +13,10 @@ class MatchesViewModel(application: Application) : AndroidViewModel(application)
 
     val matches: LiveData<List<MatchDetails>> = matchesDao.getAll()
 
+    fun getMatchById(id: Int): LiveData<MatchDetails>? {
+        return matchesDao.getById(id)
+    }
+
     fun delete(match: MatchDetails) {
         viewModelScope.launch {
             matchesDao.delete(match.match)

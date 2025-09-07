@@ -2,12 +2,12 @@ package com.soczuks.footballassistant.ui.matches
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.databinding.FragmentMatchesBinding
@@ -46,9 +46,10 @@ class MatchesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         matchAdapter = MatchAdapter({ selectedMatch ->
-            Log.d(
-                "MatchesFragment", "Selected match: ${selectedMatch.match.rivalTeam}"
+            val action = MatchesFragmentDirections.actionMatchesFragmentToMatchDetailsFragment(
+                selectedMatch.match.id
             )
+            findNavController().navigate(action)
         }, { selectedMatch ->
             AlertDialog.Builder(requireContext())
                 .setTitle(selectedMatch.match.rivalTeam)
