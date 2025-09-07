@@ -5,7 +5,7 @@
     <string name="action_settings">Ustawienia</string>
     <string name="menu_home">Strona główna</string>
     <string name="menu_competitions">Rozgrywki</string>
-    <string name="menu_items">Ekwipunek</string>
+    <string name="menu_items">Torba</string>
     <string name="navigation_drawer_open">Otwórz menu</string>
     <string name="menu_matches">Mecze</string>
     <string name="fab_description">Dodaj</string>
