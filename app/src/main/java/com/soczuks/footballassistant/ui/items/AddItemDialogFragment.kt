@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.textfield.TextInputEditText
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Item
+import com.soczuks.footballassistant.databinding.AddItemDialogBinding
 
 class AddItemDialogFragment : DialogFragment() {
     interface AddItemDialogListener {
@@ -14,8 +14,9 @@ class AddItemDialogFragment : DialogFragment() {
     }
 
     private var listener: AddItemDialogListener? = null
+    private var _binding: AddItemDialogBinding? = null
 
-    private lateinit var itemNameEditText: TextInputEditText
+    private val binding get() = _binding!!
 
     companion object {
         const val TAG = "AddItemDialog"
@@ -27,12 +28,9 @@ class AddItemDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
-        val inflater = requireActivity().layoutInflater
-        val view = inflater.inflate(R.layout.add_item_dialog, null)
+        _binding = AddItemDialogBinding.inflate(requireActivity().layoutInflater)
 
-        itemNameEditText = view.findViewById(R.id.add_item_form_name)
-
-        builder.setView(view).setPositiveButton(R.string.add, null)
+        builder.setView(binding.root).setPositiveButton(R.string.add, null)
             .setNegativeButton(R.string.cancel) { dialog, id ->
                 dismiss()
             }
@@ -43,7 +41,7 @@ class AddItemDialogFragment : DialogFragment() {
             val positiveButton = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
             positiveButton.setOnClickListener {
                 if (validateInput()) {
-                    val itemName = itemNameEditText.text.toString().trim()
+                    val itemName = binding.addItemFormName.text.toString().trim()
                     val item = Item(name = itemName)
                     listener?.onItemAdded(item)
                     dismiss()
@@ -55,7 +53,7 @@ class AddItemDialogFragment : DialogFragment() {
     }
 
     private fun validateInput(): Boolean {
-        val itemName = itemNameEditText.text.toString().trim()
+        val itemName = binding.addItemFormName.text.toString().trim()
 
         return !itemName.isEmpty()
     }

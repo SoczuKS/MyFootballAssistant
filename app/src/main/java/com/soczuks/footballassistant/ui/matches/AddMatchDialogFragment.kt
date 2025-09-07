@@ -5,11 +5,11 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Match
+import com.soczuks.footballassistant.databinding.AddMatchDialogBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -22,9 +22,9 @@ class AddMatchDialogFragment : DialogFragment() {
 
     private var listener: AddMatchDialogListener? = null
     private var selectedDateTime: Calendar? = null
+    private var _binding: AddMatchDialogBinding? = null
 
-    private lateinit var matchRivalNameEditText: TextInputEditText
-    private lateinit var matchDateTimeEditText: TextInputEditText
+    private val binding get() = _binding!!
 
     companion object {
         const val TAG = "AddMatchDialog"
@@ -36,15 +36,11 @@ class AddMatchDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
-        val inflater = requireActivity().layoutInflater
-        val view = inflater.inflate(R.layout.add_match_dialog, null)
+        _binding = AddMatchDialogBinding.inflate(requireActivity().layoutInflater)
 
-        matchDateTimeEditText = view.findViewById(R.id.add_match_form_date)
-        matchRivalNameEditText = view.findViewById(R.id.add_match_form_rival_team)
+        binding.addMatchFormDate.setOnClickListener { showDatePicker() }
 
-        matchDateTimeEditText.setOnClickListener { showDatePicker() }
-
-        builder.setView(view).setPositiveButton(R.string.add, null)
+        builder.setView(binding.root).setPositiveButton(R.string.add, null)
             .setNegativeButton(R.string.cancel) { dialog, id -> dismiss() }
 
         val dialog = builder.create()
@@ -53,7 +49,7 @@ class AddMatchDialogFragment : DialogFragment() {
             val positiveButton = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
             positiveButton.setOnClickListener {
                 if (validateInput()) {
-                    val rivalName = matchRivalNameEditText.text.toString()
+                    val rivalName = binding.addMatchFormRivalTeam.text.toString()
                     val newMatch = Match(
                         rivalTeam = rivalName,
                         competitionId = 1,
@@ -70,7 +66,9 @@ class AddMatchDialogFragment : DialogFragment() {
     }
 
     private fun validateInput(): Boolean {
-        return !matchRivalNameEditText.toString().trim().isEmpty() && selectedDateTime != null
+        val rivalName = binding.addMatchFormRivalTeam.text.toString().trim()
+
+        return rivalName.isEmpty() && selectedDateTime != null
     }
 
     private fun showTimePicker() {
@@ -136,7 +134,7 @@ class AddMatchDialogFragment : DialogFragment() {
         if (selectedDateTime != null) {
             val displayFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             displayFormat.timeZone = TimeZone.getDefault()
-            matchDateTimeEditText.setText(displayFormat.format(selectedDateTime!!.time))
+            binding.addMatchFormDate.setText(displayFormat.format(selectedDateTime!!.time))
         }
     }
 
