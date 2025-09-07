@@ -1,12 +1,12 @@
 package com.soczuks.footballassistant.ui.competitions
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.soczuks.footballassistant.databinding.FragmentCompetitionsBinding
 
 class CompetitionsFragment : Fragment() {
@@ -43,7 +43,11 @@ class CompetitionsFragment : Fragment() {
 
     private fun setupRecyclerView() {
         competitionAdapter = CompetitionAdapter { selectedItem ->
-            Log.d("CompetitionsFragment", "Selected competition: ${selectedItem.competition.name}")
+            val action =
+                CompetitionsFragmentDirections.actionCompetitionsFragmentToCompetitionDetailsFragment(
+                    selectedItem.competition.id
+                )
+            findNavController().navigate(action)
         }
         binding.recyclerViewCompetitions.apply {
             adapter = competitionAdapter

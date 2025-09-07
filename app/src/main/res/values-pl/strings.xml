@@ -22,4 +22,5 @@
     <string name="add_match">Dodaj mecz</string>
     <string name="add_match_rival_team_hint">Przeciwnik</string>
     <string name="add_match_date_hint">Termin</string>
+    <string name="menu_competition_details">Informacje o rozgrywkach</string>
 </resources>

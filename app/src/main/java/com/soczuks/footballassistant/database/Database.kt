@@ -8,14 +8,15 @@ import com.soczuks.footballassistant.database.dao.CompetitionDao
 import com.soczuks.footballassistant.database.dao.ItemDao
 import com.soczuks.footballassistant.database.dao.MatchDao
 import com.soczuks.footballassistant.database.entities.Competition
+import com.soczuks.footballassistant.database.entities.CompetitionItem
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.database.entities.Match
 import com.soczuks.footballassistant.database.entities.MatchItem
 
 @Database(
-    entities = [Match::class, Item::class, Competition::class, MatchItem::class],
+    entities = [Match::class, Item::class, Competition::class, MatchItem::class, CompetitionItem::class],
     exportSchema = false,
-    version = 9
+    version = 13
 )
 @TypeConverters(DateTimeConverter::class)
 abstract class Database : RoomDatabase() {

@@ -21,7 +21,22 @@
         android:id="@+id/nav_competitions"
         android:name="com.soczuks.footballassistant.ui.competitions.CompetitionsFragment"
         android:label="@string/menu_competitions"
-        tools:layout="@layout/fragment_competitions" />
+        tools:layout="@layout/fragment_competitions">
+        <action
+            android:id="@+id/action_competitionsFragment_to_competitionDetailsFragment"
+            app:destination="@id/competitionDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/competitionDetailsFragment"
+        android:name="com.soczuks.footballassistant.ui.competitions.CompetitionDetailsFragment"
+        android:label="@string/menu_competition_details"
+        tools:layout="@layout/fragment_competition_details">
+        <argument
+            android:name="competitionId"
+            app:argType="integer" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/nav_items"
