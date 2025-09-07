@@ -8,9 +8,14 @@ import com.soczuks.footballassistant.database.entities.CompetitionItem
 import com.soczuks.footballassistant.database.entities.Item
 
 data class CompetitionWithItems(
-    @Embedded val competition: Competition, @Relation(
-        parentColumn = "id", entityColumn = "id", associateBy = Junction(
-            value = CompetitionItem::class, parentColumn = "competitionId", entityColumn = "itemId"
+    @Embedded val competition: Competition,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "id",
+        associateBy = Junction(
+            value = CompetitionItem::class,
+            parentColumn = "competitionId",
+            entityColumn = "itemId"
         )
     ) val items: List<Item>
 )

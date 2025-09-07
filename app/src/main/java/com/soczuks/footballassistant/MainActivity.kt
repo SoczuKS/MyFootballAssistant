@@ -2,7 +2,6 @@ package com.soczuks.footballassistant
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -124,10 +123,10 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
             .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }.start()
 
         binding.appBarMain.fabCompetition.animate().translationY(
-                binding.appBarMain.fabCompetition.height.toFloat() + resources.getDimension(
-                    R.dimen.fab_margin
-                )
-            ).alpha(0f).setDuration(fabAnimationDuration)
+            binding.appBarMain.fabCompetition.height.toFloat() + resources.getDimension(
+                R.dimen.fab_margin
+            )
+        ).alpha(0f).setDuration(fabAnimationDuration)
             .withEndAction { binding.appBarMain.fabMatch.visibility = View.GONE }.start()
     }
 

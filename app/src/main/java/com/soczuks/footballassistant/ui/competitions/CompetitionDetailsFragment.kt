@@ -1,21 +1,15 @@
 package com.soczuks.footballassistant.ui.competitions
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.soczuks.footballassistant.database.relations.CompetitionWithItems
 import com.soczuks.footballassistant.databinding.FragmentCompetitionDetailsBinding
 import com.soczuks.footballassistant.ui.items.ItemsViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CompetitionDetailsFragment : Fragment() {
     private var _binding: FragmentCompetitionDetailsBinding? = null

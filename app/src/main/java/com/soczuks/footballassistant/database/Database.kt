@@ -14,7 +14,13 @@ import com.soczuks.footballassistant.database.entities.Match
 import com.soczuks.footballassistant.database.entities.MatchItem
 
 @Database(
-    entities = [Match::class, Item::class, Competition::class, MatchItem::class, CompetitionItem::class],
+    entities = [
+        Match::class,
+        Item::class,
+        Competition::class,
+        MatchItem::class,
+        CompetitionItem::class
+    ],
     exportSchema = false,
     version = 13
 )

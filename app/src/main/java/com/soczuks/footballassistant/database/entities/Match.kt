@@ -7,12 +7,16 @@ import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity(
-    tableName = "matches", foreignKeys = [ForeignKey(
-        entity = Competition::class,
-        parentColumns = ["id"],
-        childColumns = ["competitionId"],
-        onDelete = ForeignKey.RESTRICT
-    )], indices = [Index(value = ["competitionId"])]
+    tableName = "matches",
+    foreignKeys = [
+        ForeignKey(
+            entity = Competition::class,
+            parentColumns = ["id"],
+            childColumns = ["competitionId"],
+            onDelete = ForeignKey.RESTRICT
+        )
+    ],
+    indices = [Index(value = ["competitionId"])]
 )
 data class Match(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,

@@ -5,5 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "competitions")
 data class Competition(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0, val name: String, val team: String
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val name: String,
+    val team: String
 )
