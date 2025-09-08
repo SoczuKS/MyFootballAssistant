@@ -53,7 +53,7 @@ class AddMatchDialogFragment : DialogFragment() {
                     val newMatch = Match(
                         rivalTeam = rivalName,
                         competitionId = 1,
-                        isHome = true,
+                        isHome = binding.addMatchFormIsHomeGame.isChecked,
                         matchDate = selectedDateTime!!.time
                     )
                     listener?.onMatchAdded(newMatch)
@@ -68,7 +68,7 @@ class AddMatchDialogFragment : DialogFragment() {
     private fun validateInput(): Boolean {
         val rivalName = binding.addMatchFormRivalTeam.text.toString().trim()
 
-        return rivalName.isEmpty() && selectedDateTime != null
+        return !rivalName.isEmpty() && selectedDateTime != null
     }
 
     private fun showTimePicker() {
