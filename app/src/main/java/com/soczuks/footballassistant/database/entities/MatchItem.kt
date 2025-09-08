@@ -25,7 +25,7 @@ import androidx.room.Index
     indices = [Index(value = ["matchId"]), Index(value = ["itemId"])]
 )
 data class MatchItem(
-    val matchId: Int,
-    val itemId: Int,
+    val matchId: Long,
+    val itemId: Long,
     val checked: Boolean
 )

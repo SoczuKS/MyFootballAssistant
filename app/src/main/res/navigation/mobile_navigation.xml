@@ -28,7 +28,7 @@
         tools:layout="@layout/fragment_match_details">
         <argument
             android:name="matchId"
-            app:argType="integer" />
+            app:argType="long" />
     </fragment>
 
     <fragment
@@ -48,7 +48,7 @@
         tools:layout="@layout/fragment_competition_details">
         <argument
             android:name="competitionId"
-            app:argType="integer" />
+            app:argType="long" />
     </fragment>
 
 

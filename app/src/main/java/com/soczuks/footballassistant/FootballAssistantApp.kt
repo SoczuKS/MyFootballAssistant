@@ -21,15 +21,15 @@ class FootballAssistantApp : Application() {
     fun getCompetitionsDao() = database.competitionDao()
     fun getMatchesDao() = database.matchDao()
 
-    suspend fun addItem(item: Item) {
-        database.itemDao().insert(item)
+    suspend fun addItem(item: Item): Long {
+        return database.itemDao().insert(item)
     }
 
-    suspend fun addCompetition(competition: Competition) {
-        database.competitionDao().insert(competition)
+    suspend fun addCompetition(competition: Competition): Long {
+        return database.competitionDao().insert(competition)
     }
 
-    suspend fun addMatch(match: Match) {
-        database.matchDao().insert(match)
+    suspend fun addMatch(match: Match): Long {
+        return database.matchDao().insert(match)
     }
 }

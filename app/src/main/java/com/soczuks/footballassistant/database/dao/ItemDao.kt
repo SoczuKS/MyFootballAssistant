@@ -11,7 +11,7 @@ import com.soczuks.footballassistant.database.entities.Item
 @Dao
 interface ItemDao {
     @Insert
-    suspend fun insert(item: Item)
+    suspend fun insert(item: Item): Long
 
     @Delete
     suspend fun delete(item: Item)

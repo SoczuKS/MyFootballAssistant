@@ -14,10 +14,10 @@ import com.soczuks.footballassistant.database.relations.MatchDetails
 @Dao
 interface MatchDao {
     @Insert
-    suspend fun insert(match: Match)
+    suspend fun insert(match: Match): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insert(matchItem: MatchItem)
+    suspend fun insert(matchItem: MatchItem): Long
 
     @Delete
     suspend fun delete(match: Match)
@@ -31,5 +31,5 @@ interface MatchDao {
 
     @Query("SELECT * FROM matches WHERE id = :matchId")
     @Transaction
-    fun getById(matchId: Int): LiveData<MatchDetails>?
+    fun getById(matchId: Long): LiveData<MatchDetails>?
 }

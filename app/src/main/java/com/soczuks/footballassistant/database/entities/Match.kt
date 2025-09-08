@@ -19,7 +19,7 @@ import java.util.Date
     indices = [Index(value = ["competitionId"])]
 )
 data class Match(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val competitionId: Int,
     val rivalTeam: String,
     val isHome: Boolean,

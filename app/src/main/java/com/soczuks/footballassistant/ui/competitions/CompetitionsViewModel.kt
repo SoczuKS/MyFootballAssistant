@@ -22,7 +22,7 @@ class CompetitionsViewModel(application: Application) : AndroidViewModel(applica
         competitionsDao.getAll()
     val viewModelMessage: StateFlow<ViewModelMessage?> = _viewModelMessage
 
-    fun getCompetitionById(id: Int): LiveData<CompetitionDetails>? {
+    fun getCompetitionById(id: Long): LiveData<CompetitionDetails>? {
         return competitionsDao.getById(id)
     }
 

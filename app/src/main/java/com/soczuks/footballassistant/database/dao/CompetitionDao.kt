@@ -14,10 +14,10 @@ import com.soczuks.footballassistant.database.relations.CompetitionDetails
 @Dao
 interface CompetitionDao {
     @Insert
-    suspend fun insert(competition: Competition)
+    suspend fun insert(competition: Competition): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insert(competitionItem: CompetitionItem)
+    suspend fun insert(competitionItem: CompetitionItem): Long
 
     @Delete
     suspend fun delete(competition: Competition)
@@ -31,5 +31,5 @@ interface CompetitionDao {
 
     @Query("SELECT * FROM competitions WHERE id = :competitionId")
     @Transaction
-    fun getById(competitionId: Int): LiveData<CompetitionDetails>?
+    fun getById(competitionId: Long): LiveData<CompetitionDetails>?
 }

@@ -25,6 +25,6 @@ import androidx.room.Index
     indices = [Index(value = ["competitionId"]), Index(value = ["itemId"])]
 )
 class CompetitionItem(
-    val competitionId: Int,
-    val itemId: Int
+    val competitionId: Long,
+    val itemId: Long
 )

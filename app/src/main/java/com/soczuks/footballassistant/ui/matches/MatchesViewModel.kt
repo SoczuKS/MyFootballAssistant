@@ -19,7 +19,7 @@ class MatchesViewModel(application: Application) : AndroidViewModel(application)
     val matches: LiveData<List<MatchDetails>> = matchesDao.getAll()
     val viewModelMessage: StateFlow<ViewModelMessage?> = _viewModelMessage
 
-    fun getMatchById(id: Int): LiveData<MatchDetails>? {
+    fun getMatchById(id: Long): LiveData<MatchDetails>? {
         return matchesDao.getById(id)
     }
 
