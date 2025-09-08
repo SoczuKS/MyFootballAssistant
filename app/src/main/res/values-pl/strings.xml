@@ -31,5 +31,6 @@
     <string name="menu_match_details">Szczegóły meczu</string>
     <string name="date_picker_title">Wybierz datę</string>
     <string name="time_picker_title">Wybierz godzinę</string>
+    <string name="add_match_home_label">Mecz u siebie?</string>
     <string name="delete_error">Usuwanie nieudane</string>
 </resources>

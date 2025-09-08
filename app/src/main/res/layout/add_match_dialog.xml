@@ -13,9 +13,16 @@
         android:text="@string/add_match"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
+    <Spinner
+        android:id="@+id/add_match_form_competition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:hint="@string/add_match_rival_team_hint">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -28,7 +35,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:hint="@string/add_match_date_hint"
         app:endIconContentDescription="Select Date"
         app:endIconDrawable="@drawable/ic_calendar"
@@ -42,5 +49,11 @@
             android:focusable="false"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/add_match_form_is_home_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_match_home_label" />
 
 </LinearLayout>
