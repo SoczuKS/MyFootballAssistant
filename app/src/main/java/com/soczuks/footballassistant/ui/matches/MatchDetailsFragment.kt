@@ -48,6 +48,7 @@ class MatchDetailsFragment : Fragment() {
     }
 
     private fun setupUI(match: MatchDetails) {
+        binding.matchDetailsCompetition.text = match.competition.name
         binding.matchDetailsRival.text = match.match.rivalTeam
         val displayFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         displayFormat.timeZone = TimeZone.getDefault()

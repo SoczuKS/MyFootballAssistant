@@ -3,13 +3,19 @@ package com.soczuks.footballassistant.ui.matches
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Match
+import com.soczuks.footballassistant.database.relations.CompetitionDetails
 import com.soczuks.footballassistant.databinding.AddMatchDialogBinding
+import com.soczuks.footballassistant.ui.competitions.CompetitionsViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -22,7 +28,11 @@ class AddMatchDialogFragment : DialogFragment() {
 
     private var listener: AddMatchDialogListener? = null
     private var selectedDateTime: Calendar? = null
+    private var selectedCompetitionDetails: CompetitionDetails? = null
     private var _binding: AddMatchDialogBinding? = null
+    private var allCompetitionsList: List<CompetitionDetails> = emptyList()
+
+    private lateinit var competitionsViewModel: CompetitionsViewModel
 
     private val binding get() = _binding!!
 
@@ -37,8 +47,47 @@ class AddMatchDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         _binding = AddMatchDialogBinding.inflate(requireActivity().layoutInflater)
+        competitionsViewModel = ViewModelProvider(this)[CompetitionsViewModel::class.java]
 
         binding.addMatchFormDate.setOnClickListener { showDatePicker() }
+
+        val adapter = ArrayAdapter(
+            requireActivity(),
+            android.R.layout.simple_spinner_item,
+            mutableListOf<String>()
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.addMatchFormCompetition.adapter = adapter
+
+        competitionsViewModel.competitions.observe(this) { competitions ->
+            allCompetitionsList = competitions ?: emptyList()
+            val competitionNames =
+                competitions?.map { it.competition.name } ?: listOf("No competitions")
+            adapter.clear()
+            adapter.addAll(competitionNames)
+            adapter.notifyDataSetChanged()
+        }
+
+        binding.addMatchFormCompetition.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedCompetitionDetails =
+                        if (allCompetitionsList.isNotEmpty() && position < allCompetitionsList.size) {
+                            allCompetitionsList[position]
+                        } else {
+                            null
+                        }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    selectedCompetitionDetails = null
+                }
+            }
 
         builder.setView(binding.root).setPositiveButton(R.string.add, null)
             .setNegativeButton(R.string.cancel) { dialog, id -> dismiss() }
@@ -52,7 +101,7 @@ class AddMatchDialogFragment : DialogFragment() {
                     val rivalName = binding.addMatchFormRivalTeam.text.toString()
                     val newMatch = Match(
                         rivalTeam = rivalName,
-                        competitionId = 1,
+                        competitionId = selectedCompetitionDetails!!.competition.id,
                         isHome = binding.addMatchFormIsHomeGame.isChecked,
                         matchDate = selectedDateTime!!.time
                     )
@@ -68,7 +117,7 @@ class AddMatchDialogFragment : DialogFragment() {
     private fun validateInput(): Boolean {
         val rivalName = binding.addMatchFormRivalTeam.text.toString().trim()
 
-        return !rivalName.isEmpty() && selectedDateTime != null
+        return !rivalName.isEmpty() && selectedDateTime != null && selectedCompetitionDetails != null
     }
 
     private fun showTimePicker() {

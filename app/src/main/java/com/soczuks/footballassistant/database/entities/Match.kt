@@ -20,7 +20,7 @@ import java.util.Date
 )
 data class Match(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val competitionId: Int,
+    val competitionId: Long,
     val rivalTeam: String,
     val isHome: Boolean,
     val matchDate: Date,
