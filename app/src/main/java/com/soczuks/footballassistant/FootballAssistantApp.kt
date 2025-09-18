@@ -3,9 +3,6 @@ package com.soczuks.footballassistant
 import android.app.Application
 import androidx.room.Room
 import com.soczuks.footballassistant.database.Database
-import com.soczuks.footballassistant.database.entities.Competition
-import com.soczuks.footballassistant.database.entities.Item
-import com.soczuks.footballassistant.database.entities.Match
 import com.soczuks.footballassistant.ui.ViewModelMessage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,15 +25,8 @@ class FootballAssistantApp : Application() {
     fun setMessage(message: ViewModelMessage) {
         _messageChannel.value = message
     }
+
     fun clearMessage() {
         _messageChannel.value = null
-    }
-
-    suspend fun addItem(item: Item): Long {
-        return database.itemDao().insert(item)
-    }
-
-    suspend fun addCompetition(competition: Competition): Long {
-        return database.competitionDao().insert(competition)
     }
 }

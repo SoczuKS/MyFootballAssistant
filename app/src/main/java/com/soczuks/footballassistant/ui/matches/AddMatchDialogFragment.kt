@@ -115,8 +115,8 @@ class AddMatchDialogFragment : DialogFragment() {
                                     )
                                 )
                             }
+                            dismiss()
                         }
-                        dialog.dismiss()
                     }
                 }
             }

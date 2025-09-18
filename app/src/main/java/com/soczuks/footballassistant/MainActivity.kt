@@ -13,8 +13,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.soczuks.footballassistant.database.entities.Competition
-import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.ActivityMainBinding
 import com.soczuks.footballassistant.ui.ViewModelMessage
 import com.soczuks.footballassistant.ui.competitions.AddCompetitionDialogFragment
@@ -24,8 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompetitionDialogListener,
-    AddItemDialogFragment.AddItemDialogListener {
+class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var footballAssistantApp: FootballAssistantApp
@@ -140,13 +137,11 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
 
     private fun addCompetitionDialog() {
         val dialog = AddCompetitionDialogFragment()
-        dialog.setListener(this)
         dialog.show(supportFragmentManager, AddCompetitionDialogFragment.TAG)
     }
 
     private fun addItemDialog() {
         val dialog = AddItemDialogFragment()
-        dialog.setListener(this)
         dialog.show(supportFragmentManager, AddItemDialogFragment.TAG)
     }
 
@@ -192,32 +187,6 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
                 }
             } catch (e: Exception) {
                 Log.e("MainActivity", "Error collecting messages: ${e.message}")
-            }
-        }
-    }
-
-    override fun onCompetitionAdded(competition: Competition) {
-        Log.d("MainActivity", "New competition added: ${competition.name}")
-        lifecycleScope.launch {
-            try {
-                withContext(Dispatchers.IO) {
-                    footballAssistantApp.addCompetition(competition)
-                }
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Error adding competition: ${e.message}")
-            }
-        }
-    }
-
-    override fun onItemAdded(item: Item) {
-        Log.d("MainActivity", "New item added: ${item.name}")
-        lifecycleScope.launch {
-            try {
-                withContext(Dispatchers.IO) {
-                    footballAssistantApp.addItem(item)
-                }
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Error adding item: ${e.message}")
             }
         }
     }

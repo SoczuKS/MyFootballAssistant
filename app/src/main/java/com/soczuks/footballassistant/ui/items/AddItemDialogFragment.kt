@@ -4,17 +4,17 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.AddItemDialogBinding
+import kotlinx.coroutines.launch
 
 class AddItemDialogFragment : DialogFragment() {
-    interface AddItemDialogListener {
-        fun onItemAdded(item: Item)
-    }
-
-    private var listener: AddItemDialogListener? = null
     private var _binding: AddItemDialogBinding? = null
+
+    private lateinit var itemsViewModel: ItemsViewModel
 
     private val binding get() = _binding!!
 
@@ -22,13 +22,10 @@ class AddItemDialogFragment : DialogFragment() {
         const val TAG = "AddItemDialog"
     }
 
-    fun setListener(listener: AddItemDialogListener) {
-        this.listener = listener
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         _binding = AddItemDialogBinding.inflate(requireActivity().layoutInflater)
+        itemsViewModel = ViewModelProvider(this)[ItemsViewModel::class.java]
 
         builder.setView(binding.root).setPositiveButton(R.string.add, null)
             .setNegativeButton(R.string.cancel) { dialog, id ->
@@ -43,8 +40,14 @@ class AddItemDialogFragment : DialogFragment() {
                 if (validateInput()) {
                     val itemName = binding.addItemFormName.text.toString().trim()
                     val item = Item(name = itemName)
-                    listener?.onItemAdded(item)
-                    dismiss()
+
+                    lifecycleScope.launch {
+                        val newItemId = itemsViewModel.insert(item)
+
+                        if (newItemId != null) {
+                            dismiss()
+                        }
+                    }
                 }
             }
         }
@@ -56,10 +59,5 @@ class AddItemDialogFragment : DialogFragment() {
         val itemName = binding.addItemFormName.text.toString().trim()
 
         return !itemName.isEmpty()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 }

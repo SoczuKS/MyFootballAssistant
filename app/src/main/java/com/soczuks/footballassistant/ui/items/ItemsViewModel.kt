@@ -16,6 +16,20 @@ class ItemsViewModel(application: Application) : AndroidViewModel(application) {
 
     val items: LiveData<List<Item>> = itemsDao.getAll()
 
+    suspend fun insert(item: Item): Long? {
+        var newItemId: Long? = null
+        try {
+            newItemId = itemsDao.insert(item)
+        } catch (e: SQLiteConstraintException) {
+            footballAssistantApp.setMessage(
+                ViewModelMessage(
+                    ViewModelMessage.Code.InsertFailed, e.localizedMessage
+                )
+            )
+        }
+        return newItemId
+    }
+
     fun delete(item: Item) {
         viewModelScope.launch {
             try {

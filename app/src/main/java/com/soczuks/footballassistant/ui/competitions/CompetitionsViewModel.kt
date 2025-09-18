@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.soczuks.footballassistant.FootballAssistantApp
+import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.CompetitionItem
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.database.relations.CompetitionDetails
@@ -17,6 +18,18 @@ class CompetitionsViewModel(application: Application) : AndroidViewModel(applica
     private val competitionsDao = footballAssistantApp.getCompetitionsDao()
 
     val competitions: LiveData<List<CompetitionDetails>> = competitionsDao.getAll()
+
+    suspend fun insert(competition: Competition): Long? {
+        var newCompetitionId: Long? = null
+        try {
+            newCompetitionId = competitionsDao.insert(competition)
+        } catch (e: SQLiteConstraintException) {
+            footballAssistantApp.setMessage(
+                ViewModelMessage(ViewModelMessage.Code.InsertFailed, e.localizedMessage)
+            )
+        }
+        return newCompetitionId
+    }
 
     fun getCompetitionById(id: Long): LiveData<CompetitionDetails>? {
         return competitionsDao.getById(id)

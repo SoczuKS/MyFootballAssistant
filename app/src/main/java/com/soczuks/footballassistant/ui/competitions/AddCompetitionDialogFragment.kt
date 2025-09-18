@@ -4,35 +4,27 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.textfield.TextInputEditText
+import androidx.lifecycle.lifecycleScope
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Competition
+import com.soczuks.footballassistant.databinding.AddCompetitionDialogBinding
+import kotlinx.coroutines.launch
 
 class AddCompetitionDialogFragment : DialogFragment() {
-    interface AddCompetitionDialogListener {
-        fun onCompetitionAdded(competition: Competition)
-    }
+    private var _binding: AddCompetitionDialogBinding? = null
 
-    private var listener: AddCompetitionDialogListener? = null
+    private lateinit var competitionsViewModel: CompetitionsViewModel
 
-    private lateinit var competitionNameEditText: TextInputEditText
-    private lateinit var teamNameEditText: TextInputEditText
+    private val binding get() = _binding!!
 
     companion object {
         const val TAG = "AddCompetitionDialog"
     }
 
-    fun setListener(listener: AddCompetitionDialogListener) {
-        this.listener = listener
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
-        val inflater = requireActivity().layoutInflater
-        val view = inflater.inflate(R.layout.add_competition_dialog, null)
+        _binding = AddCompetitionDialogBinding.inflate(requireActivity().layoutInflater)
 
-        competitionNameEditText = view.findViewById(R.id.add_competition_form_name)
-        teamNameEditText = view.findViewById(R.id.add_competition_form_team)
 
         builder.setView(view).setPositiveButton(R.string.add, null)
             .setNegativeButton(R.string.cancel) { dialog, id ->
@@ -45,11 +37,17 @@ class AddCompetitionDialogFragment : DialogFragment() {
             val positiveButton = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
             positiveButton.setOnClickListener {
                 if (validateInput()) {
-                    val competitionName = competitionNameEditText.text.toString().trim()
-                    val teamName = teamNameEditText.text.toString().trim()
+                    val competitionName = binding.addCompetitionFormName.text.toString().trim()
+                    val teamName = binding.addCompetitionFormTeam.text.toString().trim()
                     val competition = Competition(name = competitionName, team = teamName)
-                    listener?.onCompetitionAdded(competition)
-                    dismiss()
+
+                    lifecycleScope.launch {
+                        val newCompetitionId = competitionsViewModel.insert(competition)
+
+                        if (newCompetitionId != null) {
+                            dismiss()
+                        }
+                    }
                 }
             }
         }
@@ -58,14 +56,9 @@ class AddCompetitionDialogFragment : DialogFragment() {
     }
 
     private fun validateInput(): Boolean {
-        val competitionName = competitionNameEditText.text.toString().trim()
-        val teamName = teamNameEditText.text.toString().trim()
+        val competitionName = binding.addCompetitionFormName.text.toString().trim()
+        val teamName = binding.addCompetitionFormTeam.text.toString().trim()
 
         return !competitionName.isEmpty() && !teamName.isEmpty()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 }
