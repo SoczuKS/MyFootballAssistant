@@ -28,8 +28,4 @@ class FootballAssistantApp : Application() {
     suspend fun addCompetition(competition: Competition): Long {
         return database.competitionDao().insert(competition)
     }
-
-    suspend fun addMatch(match: Match): Long {
-        return database.matchDao().insert(match)
-    }
 }

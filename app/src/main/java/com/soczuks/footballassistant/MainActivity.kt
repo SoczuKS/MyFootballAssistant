@@ -14,7 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.Item
-import com.soczuks.footballassistant.database.entities.Match
 import com.soczuks.footballassistant.databinding.ActivityMainBinding
 import com.soczuks.footballassistant.ui.competitions.AddCompetitionDialogFragment
 import com.soczuks.footballassistant.ui.items.AddItemDialogFragment
@@ -24,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompetitionDialogListener,
-    AddItemDialogFragment.AddItemDialogListener, AddMatchDialogFragment.AddMatchDialogListener {
+    AddItemDialogFragment.AddItemDialogListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var footballAssistantApp: FootballAssistantApp
@@ -39,6 +38,29 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
+        setupFabMenu()
+
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_matches, R.id.nav_competitions, R.id.nav_items
+            ), drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
+        footballAssistantApp = application as FootballAssistantApp
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun setupFabMenu() {
         binding.appBarMain.fabItem.translationY =
             binding.appBarMain.fabItem.height.toFloat() + resources.getDimension(R.dimen.fab_margin)
         binding.appBarMain.fabMatch.translationY =
@@ -71,24 +93,6 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
             addCompetitionDialog()
             closeFabMenu()
         }
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_matches, R.id.nav_competitions, R.id.nav_items
-            ), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-
-        footballAssistantApp = application as FootballAssistantApp
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun openFabMenu() {
@@ -144,7 +148,6 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
 
     private fun addMatchDialog() {
         val dialog = AddMatchDialogFragment()
-        dialog.setListener(this)
         dialog.show(supportFragmentManager, AddMatchDialogFragment.TAG)
     }
 
@@ -170,19 +173,6 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
                 }
             } catch (e: Exception) {
                 Log.e("MainActivity", "Error adding item: ${e.message}")
-            }
-        }
-    }
-
-    override fun onMatchAdded(match: Match) {
-        Log.d("MainActivity", "New match added: ${match.rivalTeam}")
-        lifecycleScope.launch {
-            try {
-                withContext(Dispatchers.IO) {
-                    footballAssistantApp.addMatch(match)
-                }
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Error adding match: ${e.message}")
             }
         }
     }

@@ -34,4 +34,5 @@
     <string name="time_picker_title">Select time</string>
     <string name="add_match_home_label">Is home game?</string>
     <string name="delete_error">Delete failed</string>
+    <string name="insert_error">Add failed</string>
 </resources>

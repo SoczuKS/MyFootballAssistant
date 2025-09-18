@@ -33,4 +33,5 @@
     <string name="time_picker_title">Wybierz godzinę</string>
     <string name="add_match_home_label">Mecz u siebie?</string>
     <string name="delete_error">Usuwanie nieudane</string>
+    <string name="insert_error">Dodawanie nieudane</string>
 </resources>

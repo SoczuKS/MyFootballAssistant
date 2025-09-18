@@ -56,6 +56,14 @@ class CompetitionsFragment : Fragment() {
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
+                            ViewModelMessage.Code.InsertFailed -> {
+                                Log.d("CompetitionsFragment", "Insert failed: ${it.message!!}")
+                                Toast.makeText(
+                                    requireContext(),
+                                    R.string.insert_error,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
                         competitionsViewModel.clearMessage()
                     }

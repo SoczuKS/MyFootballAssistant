@@ -8,31 +8,30 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Match
+import com.soczuks.footballassistant.database.entities.MatchItem
 import com.soczuks.footballassistant.database.relations.CompetitionDetails
 import com.soczuks.footballassistant.databinding.AddMatchDialogBinding
 import com.soczuks.footballassistant.ui.competitions.CompetitionsViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
 
 class AddMatchDialogFragment : DialogFragment() {
-    interface AddMatchDialogListener {
-        fun onMatchAdded(match: Match)
-    }
-
-    private var listener: AddMatchDialogListener? = null
     private var selectedDateTime: Calendar? = null
     private var selectedCompetitionDetails: CompetitionDetails? = null
     private var _binding: AddMatchDialogBinding? = null
     private var allCompetitionsList: List<CompetitionDetails> = emptyList()
 
     private lateinit var competitionsViewModel: CompetitionsViewModel
+    private lateinit var matchesViewModel: MatchesViewModel
 
     private val binding get() = _binding!!
 
@@ -40,14 +39,11 @@ class AddMatchDialogFragment : DialogFragment() {
         const val TAG = "AddMatchDialog"
     }
 
-    fun setListener(listener: AddMatchDialogListener) {
-        this.listener = listener
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         _binding = AddMatchDialogBinding.inflate(requireActivity().layoutInflater)
         competitionsViewModel = ViewModelProvider(this)[CompetitionsViewModel::class.java]
+        matchesViewModel = ViewModelProvider(this)[MatchesViewModel::class.java]
 
         binding.addMatchFormDate.setOnClickListener { showDatePicker() }
 
@@ -105,8 +101,23 @@ class AddMatchDialogFragment : DialogFragment() {
                         isHome = binding.addMatchFormIsHomeGame.isChecked,
                         matchDate = selectedDateTime!!.time
                     )
-                    listener?.onMatchAdded(newMatch)
-                    dialog.dismiss()
+
+                    lifecycleScope.launch {
+                        val newMatchId = matchesViewModel.insert(newMatch)
+
+                        if (newMatchId != null) {
+                            for (item in selectedCompetitionDetails!!.items) {
+                                matchesViewModel.insert(
+                                    MatchItem(
+                                        newMatchId,
+                                        item.id,
+                                        false
+                                    )
+                                )
+                            }
+                        }
+                        dialog.dismiss()
+                    }
                 }
             }
         }
@@ -185,10 +196,5 @@ class AddMatchDialogFragment : DialogFragment() {
             displayFormat.timeZone = TimeZone.getDefault()
             binding.addMatchFormDate.setText(displayFormat.format(selectedDateTime!!.time))
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 }

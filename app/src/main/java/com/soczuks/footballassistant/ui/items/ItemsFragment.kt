@@ -55,6 +55,14 @@ class ItemsFragment : Fragment() {
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
+                            ViewModelMessage.Code.InsertFailed -> {
+                                Log.d("ItemsFragment", "Insert failed: ${it.message!!}")
+                                Toast.makeText(
+                                    requireContext(),
+                                    R.string.insert_error,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
                         itemsViewModel.clearMessage()
                     }

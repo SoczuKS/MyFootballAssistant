@@ -57,6 +57,14 @@ class MatchesFragment : Fragment() {
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
+                            ViewModelMessage.Code.InsertFailed -> {
+                                Log.d("MatchesFragment", "Insert failed: ${it.message!!}")
+                                Toast.makeText(
+                                    requireContext(),
+                                    R.string.insert_error,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
                         matchesViewModel.clearMessage()
                     }
