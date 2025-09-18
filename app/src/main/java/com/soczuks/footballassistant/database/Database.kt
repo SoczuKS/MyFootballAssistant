@@ -22,7 +22,7 @@ import com.soczuks.footballassistant.database.entities.MatchItem
         CompetitionItem::class
     ],
     exportSchema = false,
-    version = 15
+    version = 20
 )
 @TypeConverters(DateTimeConverter::class)
 abstract class Database : RoomDatabase() {
