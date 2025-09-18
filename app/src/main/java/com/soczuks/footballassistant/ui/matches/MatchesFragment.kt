@@ -2,22 +2,15 @@ package com.soczuks.footballassistant.ui.matches
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.databinding.FragmentMatchesBinding
-import com.soczuks.footballassistant.ui.ViewModelMessage
-import kotlinx.coroutines.launch
 
 class MatchesFragment : Fragment() {
     private var _binding: FragmentMatchesBinding? = null
@@ -40,35 +33,6 @@ class MatchesFragment : Fragment() {
         matchesViewModel.matches.observe(viewLifecycleOwner) { matches ->
             matches?.let {
                 matchAdapter.submitList(it)
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                matchesViewModel.viewModelMessage.collect { message ->
-                    message?.let {
-                        when (it.messageCode) {
-                            ViewModelMessage.Code.Success -> {}
-                            ViewModelMessage.Code.DeleteFailed -> {
-                                Log.d("MatchesFragment", "Delete failed: ${it.message!!}")
-                                Toast.makeText(
-                                    requireContext(),
-                                    R.string.delete_error,
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                            ViewModelMessage.Code.InsertFailed -> {
-                                Log.d("MatchesFragment", "Insert failed: ${it.message!!}")
-                                Toast.makeText(
-                                    requireContext(),
-                                    R.string.insert_error,
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
-                        matchesViewModel.clearMessage()
-                    }
-                }
             }
         }
 

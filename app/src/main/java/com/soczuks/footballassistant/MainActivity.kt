@@ -3,6 +3,7 @@ package com.soczuks.footballassistant
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import com.google.android.material.navigation.NavigationView
 import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.databinding.ActivityMainBinding
+import com.soczuks.footballassistant.ui.ViewModelMessage
 import com.soczuks.footballassistant.ui.competitions.AddCompetitionDialogFragment
 import com.soczuks.footballassistant.ui.items.AddItemDialogFragment
 import com.soczuks.footballassistant.ui.matches.AddMatchDialogFragment
@@ -53,6 +55,8 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
         navView.setupWithNavController(navController)
 
         footballAssistantApp = application as FootballAssistantApp
+
+        listenForAppMessages()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -149,6 +153,47 @@ class MainActivity : AppCompatActivity(), AddCompetitionDialogFragment.AddCompet
     private fun addMatchDialog() {
         val dialog = AddMatchDialogFragment()
         dialog.show(supportFragmentManager, AddMatchDialogFragment.TAG)
+    }
+
+    private fun listenForAppMessages() {
+        lifecycleScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    footballAssistantApp.messageChannel.collect { message ->
+                        Log.d("MainActivity", "Message from FootballAssistantApp: $message")
+                        message?.let {
+                            when (it.messageCode) {
+                                ViewModelMessage.Code.Success -> {}
+                                ViewModelMessage.Code.DeleteFailed -> {
+                                    Log.d("CompetitionsFragment", "Delete failed: ${it.message!!}")
+                                    runOnUiThread {
+                                        Toast.makeText(
+                                            this@MainActivity,
+                                            R.string.delete_error,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+
+                                ViewModelMessage.Code.InsertFailed -> {
+                                    Log.d("CompetitionsFragment", "Insert failed: ${it.message!!}")
+                                    runOnUiThread {
+                                        Toast.makeText(
+                                            this@MainActivity,
+                                            R.string.insert_error,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            }
+                            footballAssistantApp.clearMessage()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error collecting messages: ${e.message}")
+            }
+        }
     }
 
     override fun onCompetitionAdded(competition: Competition) {

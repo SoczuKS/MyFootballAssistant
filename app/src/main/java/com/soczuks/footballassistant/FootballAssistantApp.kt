@@ -6,9 +6,14 @@ import com.soczuks.footballassistant.database.Database
 import com.soczuks.footballassistant.database.entities.Competition
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.database.entities.Match
+import com.soczuks.footballassistant.ui.ViewModelMessage
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class FootballAssistantApp : Application() {
     private lateinit var database: Database
+    private val _messageChannel = MutableStateFlow<ViewModelMessage?>(null)
+    var messageChannel: StateFlow<ViewModelMessage?> = _messageChannel
 
     override fun onCreate() {
         super.onCreate()
@@ -20,6 +25,12 @@ class FootballAssistantApp : Application() {
     fun getItemsDao() = database.itemDao()
     fun getCompetitionsDao() = database.competitionDao()
     fun getMatchesDao() = database.matchDao()
+    fun setMessage(message: ViewModelMessage) {
+        _messageChannel.value = message
+    }
+    fun clearMessage() {
+        _messageChannel.value = null
+    }
 
     suspend fun addItem(item: Item): Long {
         return database.itemDao().insert(item)

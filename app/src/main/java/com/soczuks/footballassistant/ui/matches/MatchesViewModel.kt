@@ -10,25 +10,23 @@ import com.soczuks.footballassistant.database.entities.Match
 import com.soczuks.footballassistant.database.entities.MatchItem
 import com.soczuks.footballassistant.database.relations.MatchDetails
 import com.soczuks.footballassistant.ui.ViewModelMessage
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MatchesViewModel(application: Application) : AndroidViewModel(application) {
-    private val matchesDao = (application as FootballAssistantApp).getMatchesDao()
-    private val _viewModelMessage = MutableStateFlow<ViewModelMessage?>(null)
+    private val footballAssistantApp = application as FootballAssistantApp
+    private val matchesDao = footballAssistantApp.getMatchesDao()
 
     val matches: LiveData<List<MatchDetails>> = matchesDao.getAll()
-    val viewModelMessage: StateFlow<ViewModelMessage?> = _viewModelMessage
 
     suspend fun insert(match: Match): Long? {
         var newMatchId: Long? = null
         try {
             newMatchId = matchesDao.insert(match)
         } catch (e: SQLiteConstraintException) {
-            _viewModelMessage.value = ViewModelMessage(
-                ViewModelMessage.Code.InsertFailed,
-                e.localizedMessage
+            footballAssistantApp.setMessage(
+                ViewModelMessage(
+                    ViewModelMessage.Code.InsertFailed, e.localizedMessage
+                )
             )
         }
         return newMatchId
@@ -39,9 +37,10 @@ class MatchesViewModel(application: Application) : AndroidViewModel(application)
             try {
                 matchesDao.insert(matchItem)
             } catch (e: SQLiteConstraintException) {
-                _viewModelMessage.value = ViewModelMessage(
-                    ViewModelMessage.Code.InsertFailed,
-                    e.localizedMessage
+                footballAssistantApp.setMessage(
+                    ViewModelMessage(
+                        ViewModelMessage.Code.InsertFailed, e.localizedMessage
+                    )
                 )
             }
         }
@@ -56,15 +55,12 @@ class MatchesViewModel(application: Application) : AndroidViewModel(application)
             try {
                 matchesDao.delete(match.match)
             } catch (e: SQLiteConstraintException) {
-                _viewModelMessage.value = ViewModelMessage(
-                    ViewModelMessage.Code.DeleteFailed,
-                    e.localizedMessage
+                footballAssistantApp.setMessage(
+                    ViewModelMessage(
+                        ViewModelMessage.Code.DeleteFailed, e.localizedMessage
+                    )
                 )
             }
         }
-    }
-
-    fun clearMessage() {
-        _viewModelMessage.value = null
     }
 }

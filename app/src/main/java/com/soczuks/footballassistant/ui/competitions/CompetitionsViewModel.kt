@@ -10,17 +10,13 @@ import com.soczuks.footballassistant.database.entities.CompetitionItem
 import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.database.relations.CompetitionDetails
 import com.soczuks.footballassistant.ui.ViewModelMessage
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class CompetitionsViewModel(application: Application) : AndroidViewModel(application) {
-    private val competitionsDao = (application as FootballAssistantApp).getCompetitionsDao()
-    private val _viewModelMessage = MutableStateFlow<ViewModelMessage?>(null)
+    private val footballAssistantApp = application as FootballAssistantApp
+    private val competitionsDao = footballAssistantApp.getCompetitionsDao()
 
-    val competitions: LiveData<List<CompetitionDetails>> =
-        competitionsDao.getAll()
-    val viewModelMessage: StateFlow<ViewModelMessage?> = _viewModelMessage
+    val competitions: LiveData<List<CompetitionDetails>> = competitionsDao.getAll()
 
     fun getCompetitionById(id: Long): LiveData<CompetitionDetails>? {
         return competitionsDao.getById(id)
@@ -31,8 +27,9 @@ class CompetitionsViewModel(application: Application) : AndroidViewModel(applica
             try {
                 competitionsDao.delete(competition.competition)
             } catch (e: SQLiteConstraintException) {
-                _viewModelMessage.value =
+                footballAssistantApp.setMessage(
                     ViewModelMessage(ViewModelMessage.Code.DeleteFailed, e.localizedMessage)
+                )
             }
         }.start()
     }
@@ -41,8 +38,7 @@ class CompetitionsViewModel(application: Application) : AndroidViewModel(applica
         viewModelScope.launch {
             competitionsDao.insert(
                 CompetitionItem(
-                    competition.competition.id,
-                    item.id
+                    competition.competition.id, item.id
                 )
             )
         }
@@ -52,14 +48,9 @@ class CompetitionsViewModel(application: Application) : AndroidViewModel(applica
         viewModelScope.launch {
             competitionsDao.delete(
                 CompetitionItem(
-                    competition.competition.id,
-                    item.id
+                    competition.competition.id, item.id
                 )
             )
         }
-    }
-
-    fun clearMessage() {
-        _viewModelMessage.value = null
     }
 }
