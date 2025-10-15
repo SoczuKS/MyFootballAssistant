@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android) version "2.2.0"
     id("com.google.devtools.ksp") version "2.2.0-2.0.2"
-    id("androidx.navigation.safeargs.kotlin") version "2.9.3"
+    id("androidx.navigation.safeargs.kotlin") version "2.9.5"
 }
 
 android {
@@ -55,8 +55,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.core.animation)
     implementation(libs.material)
-    implementation("androidx.navigation:navigation-fragment-ktx")
-    implementation("androidx.navigation:navigation-ui-ktx")
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.androidx.room.testing)
