@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.entities.Competition
@@ -24,9 +25,9 @@ class AddCompetitionDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         _binding = AddCompetitionDialogBinding.inflate(requireActivity().layoutInflater)
+        competitionsViewModel = ViewModelProvider(this)[CompetitionsViewModel::class.java]
 
-
-        builder.setView(view).setPositiveButton(R.string.add, null)
+        builder.setView(binding.root).setPositiveButton(R.string.add, null)
             .setNegativeButton(R.string.cancel) { dialog, id ->
                 dismiss()
             }
