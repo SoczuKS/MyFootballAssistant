@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.tabs.TabLayoutMediator
+import com.soczuks.footballassistant.R
 import com.soczuks.footballassistant.database.relations.MatchDetails
 import com.soczuks.footballassistant.databinding.FragmentMatchDetailsBinding
 import com.soczuks.footballassistant.ui.competitions.CompetitionsViewModel
@@ -53,7 +55,13 @@ class MatchDetailsFragment : Fragment() {
         val displayFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         displayFormat.timeZone = TimeZone.getDefault()
         binding.matchDetailsDate.text = displayFormat.format(match.match.matchDate.time)
-        // TODO: More info
+        binding.matchDetailsViewPager.adapter = MatchDetailsTabsAdapter(match, this)
+        TabLayoutMediator(
+            binding.matchDetailsTabLayout,
+            binding.matchDetailsViewPager
+        ) { tab, position ->
+            tab.text = getString(if (position == 0) R.string.before_match else R.string.after_match)
+        }.attach()
     }
 
     override fun onDestroyView() {

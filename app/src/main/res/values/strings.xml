@@ -35,4 +35,6 @@
     <string name="add_match_home_label">Is home game?</string>
     <string name="delete_error">Delete failed</string>
     <string name="insert_error">Add failed</string>
+    <string name="before_match">Before match</string>
+    <string name="after_match">After match</string>
 </resources>
