@@ -25,17 +25,10 @@ class CompetitionsFragment : Fragment() {
         competitionsViewModel = ViewModelProvider(this)[CompetitionsViewModel::class.java]
 
         _binding = FragmentCompetitionsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
         setupRecyclerView()
 
-        competitionsViewModel.competitions.observe(viewLifecycleOwner) { competitions ->
-            competitions?.let {
-                competitionAdapter.submitList(it)
-            }
-        }
-
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -63,6 +56,11 @@ class CompetitionsFragment : Fragment() {
         binding.recyclerViewCompetitions.apply {
             adapter = competitionAdapter
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        }
+        competitionsViewModel.competitions.observe(viewLifecycleOwner) { competitions ->
+            competitions?.let {
+                competitionAdapter.submitList(it)
+            }
         }
     }
 }

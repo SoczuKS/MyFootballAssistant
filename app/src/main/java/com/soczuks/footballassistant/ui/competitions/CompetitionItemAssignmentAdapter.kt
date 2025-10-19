@@ -12,14 +12,11 @@ import com.soczuks.footballassistant.ui.items.ItemDiffCallback
 class CompetitionItemAssignmentAdapter(
     private val competition: CompetitionDetails,
     private val onItemCheckedChanged: (item: Item, isChecked: Boolean) -> Unit
-) :
-    ListAdapter<Item, CompetitionItemAssignmentAdapter.ViewHolder>(ItemDiffCallback()) {
+) : ListAdapter<Item, CompetitionItemAssignmentAdapter.ViewHolder>(ItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = CompetitionDetailsItemsListBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+            LayoutInflater.from(parent.context), parent, false
         )
         return ViewHolder(binding)
     }

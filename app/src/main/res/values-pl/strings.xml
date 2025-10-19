@@ -36,4 +36,8 @@
     <string name="insert_error">Dodawanie nieudane</string>
     <string name="before_match">Przed meczem</string>
     <string name="after_match">Po meczu</string>
+    <string name="home_score">Wynik gospodarzy:</string>
+    <string name="away_score">Wynik gości</string>
+    <string name="grade">Ocena</string>
+    <string name="note_hint">Dodatkowe notatki</string>
 </resources>

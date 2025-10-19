@@ -24,6 +24,24 @@ class MatchDetailsAfterMatchFragment(private val match: MatchDetails) : Fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.homeScorePicker.apply {
+            minValue = 0
+            maxValue = 50
+            value = match.match.homeScore ?: 0
+        }
+
+        binding.awayScorePicker.apply {
+            minValue = 0
+            maxValue = 50
+            value = match.match.awayScore ?: 0
+        }
+
+        binding.gradePicker.apply {
+            minValue = 1
+            maxValue = 6
+            value = match.match.grade ?: 3
+        }
     }
 
     override fun onDestroyView() {
