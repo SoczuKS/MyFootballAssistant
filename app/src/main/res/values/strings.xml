@@ -39,6 +39,8 @@
     <string name="after_match">After match</string>
     <string name="home_score">Home team score:</string>
     <string name="away_score">Away team score:</string>
-    <string name="grade">Grade</string>
+    <string name="grade">Grade:</string>
     <string name="note_hint">Additional notes</string>
+    <string name="score_hint">0</string>
+    <string name="grade_hint">3</string>
 </resources>

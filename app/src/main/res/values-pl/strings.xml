@@ -38,6 +38,8 @@
     <string name="after_match">Po meczu</string>
     <string name="home_score">Wynik gospodarzy:</string>
     <string name="away_score">Wynik gości</string>
-    <string name="grade">Ocena</string>
+    <string name="grade">Ocena:</string>
     <string name="note_hint">Dodatkowe notatki</string>
+    <string name="score_hint">0</string>
+    <string name="grade_hint">3</string>
 </resources>
