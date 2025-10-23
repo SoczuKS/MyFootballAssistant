@@ -12,14 +12,8 @@ data class MatchDetails(
     @Embedded val match: Match,
     @Relation(
         parentColumn = "id",
-        entityColumn = "id",
-        associateBy = Junction(
-            value = MatchItem::class,
-            parentColumn = "matchId",
-            entityColumn = "itemId"
-        ),
-        projection = ["id", "name"]
-    ) val items: List<Item>,
+        entityColumn = "matchId",
+    ) val items: List<MatchItem>,
 
     @Relation(
         parentColumn = "competitionId",

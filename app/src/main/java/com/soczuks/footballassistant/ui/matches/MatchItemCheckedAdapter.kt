@@ -31,7 +31,7 @@ class MatchItemCheckedAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MatchItem) {
             binding.itemNameTextView.text = item.itemId.toString()
-            binding.itemCheckBox.isChecked = match.items.any { it.id == item.itemId }
+            binding.itemCheckBox.isChecked = item.checked
             binding.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 onItemCheckedChanged(item, isChecked)
             }

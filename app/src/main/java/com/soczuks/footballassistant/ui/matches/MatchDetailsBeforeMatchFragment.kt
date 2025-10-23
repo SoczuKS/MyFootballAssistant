@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.soczuks.footballassistant.database.entities.Item
 import com.soczuks.footballassistant.database.relations.MatchDetails
 import com.soczuks.footballassistant.databinding.MatchDetailsBeforeMatchBinding
 
@@ -41,6 +40,6 @@ class MatchDetailsBeforeMatchFragment(private val match: MatchDetails) : Fragmen
             adapter = matchItemCheckedAdapter
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         }
-
+        matchItemCheckedAdapter.submitList(match.items)
     }
 }
